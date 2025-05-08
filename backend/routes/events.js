@@ -53,7 +53,59 @@ router.get('/sport/:sport', (req, res) => {
   res.json(filteredEvents);
 });
 
+// 4. POST - Add a new sports event
+router.post('/', (req, res) => {
+  const { name, date, location, sport, organizerId } = req.body;
 
+  // Validation
+  if (!name || !date || !location || !sport || !organizerId) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  const allowedSports = ['football', 'cricket', 'basketball', 'badminton', 'volleyball'];
+  if (!allowedSports.includes(sport.toLowerCase())) {
+    return res.status(400).json({ message: 'Only sports events are allowed in UniPlay' });
+  }
+
+  const newEvent = {
+    id: (mockEvents.length + 1).toString(),
+    name: name.trim(),
+    date,
+    location: location.trim(),
+    sport: sport.trim(),
+    organizerId: organizerId.trim()
+  };
+
+  mockEvents.push(newEvent);
+  res.status(201).json(newEvent);
+});
+
+// 5. POST by organizer ID (alternative way to add an event for a specific organizer)
+router.post('/organizer/:organizerId', (req, res) => {
+  const { name, date, location, sport } = req.body;
+  const organizerId = req.params.organizerId;
+
+  if (!name || !date || !location || !sport) {
+    return res.status(400).json({ message: 'All fields except organizerId in body are required' });
+  }
+
+  const allowedSports = ['football', 'cricket', 'basketball', 'badminton', 'volleyball'];
+  if (!allowedSports.includes(sport.toLowerCase())) {
+    return res.status(400).json({ message: 'Only sports events are allowed in UniPlay' });
+  }
+
+  const newEvent = {
+    id: (mockEvents.length + 1).toString(),
+    name: name.trim(),
+    date,
+    location: location.trim(),
+    sport: sport.trim(),
+    organizerId: organizerId.trim()
+  };
+
+  mockEvents.push(newEvent);
+  res.status(201).json(newEvent);
+});
 
 module.exports = router;
 
