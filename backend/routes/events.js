@@ -107,5 +107,68 @@ router.post('/organizer/:organizerId', (req, res) => {
   res.status(201).json(newEvent);
 });
 
+
+
+// 6. PUT - Update a sports event by ID
+router.put('/:id', (req, res) => {
+    const eventId = req.params.id;
+    const { name, date, location, sport, organizerId } = req.body;
+  
+    const eventIndex = mockEvents.findIndex(e => e.id === eventId);
+  
+    if (eventIndex === -1) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+  
+    // Validate required fields
+    if (!name || !date || !location || !sport || !organizerId) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+  
+    const allowedSports = ['football', 'cricket', 'basketball', 'badminton', 'volleyball'];
+    if (!allowedSports.includes(sport.toLowerCase())) {
+      return res.status(400).json({ message: 'Only sports events are allowed in UniPlay' });
+    }
+  
+    // Update the event
+    mockEvents[eventIndex] = {
+      ...mockEvents[eventIndex],
+      name: name.trim(),
+      date,
+      location: location.trim(),
+      sport: sport.trim(),
+      organizerId: organizerId.trim()
+    };
+  
+    res.status(200).json({ message: 'Event updated successfully', event: mockEvents[eventIndex] });
+  });
+
+  
+
+
+  // 7. PUT - Update only the location of a sports event by ID
+router.put('/:id/location', (req, res) => {
+    const eventId = req.params.id;
+    const { location } = req.body;
+  
+    const event = mockEvents.find(e => e.id === eventId);
+  
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+  
+    if (!location) {
+      return res.status(400).json({ message: 'Location is required' });
+    }
+  
+    event.location = location.trim();
+  
+    res.status(200).json({ message: 'Event location updated successfully', event });
+  });
+
+  
+
+
+  
 module.exports = router;
 
