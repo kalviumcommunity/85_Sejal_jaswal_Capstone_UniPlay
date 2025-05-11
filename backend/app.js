@@ -1,10 +1,8 @@
-// app.js
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
-const headerValidation = require('./backend/middleware/headerValidation'); // Import middleware
+const headerValidation = require('./middleware/headerValidation');
 
 const app = express();
 const PORT = process.env.PORT || 5020;
@@ -12,15 +10,11 @@ const PORT = process.env.PORT || 5020;
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-
-
-// Apply the headerValidation middleware globally
 app.use(headerValidation);
 
 // Routes
-const eventRoutes = require('./backend/routes/events');
-app.use('/api/events', eventRoutes);
+app.use('/api/events', require('./routes/events'));
+app.use('/api/registrations', require('./routes/registrations'));
 
 // Test route
 app.get('/', (req, res) => {
@@ -35,7 +29,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => {
   console.log('MongoDB connected');
   app.listen(PORT, () => {
-    console.log(`Server running on port http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
   });
 })
 .catch(err => console.log(err));
