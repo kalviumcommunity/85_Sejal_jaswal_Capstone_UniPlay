@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
-const headerValidation = require('./middleware/headerValidation'); // Import middleware
+const headerValidation = require('./backend/middleware/headerValidation'); // Import middleware
 
 const app = express();
 const PORT = process.env.PORT || 5020;
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(headerValidation);
 
 // Routes
-const eventRoutes = require('./routes/events');
+const eventRoutes = require('./backend/routes/events');
 app.use('/api/events', eventRoutes);
 
 // Test route
