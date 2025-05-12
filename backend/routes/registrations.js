@@ -1,3 +1,5 @@
+//routes/registration.js
+
 const express = require('express');
 const router = express.Router();
 const Registration = require('../models/Registration');
@@ -35,5 +37,21 @@ router.post('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
+
+router.get('/', async (req, res) => {
+  try {
+    const registrations = await Registration.find()
+      .populate('user', 'name email')
+      .populate('event', 'title gameType date');
+
+    res.json(registrations);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 module.exports = router;
