@@ -1,3 +1,5 @@
+//routes/events.js
+
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
@@ -109,5 +111,19 @@ router.put('/:id/location', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
+router.get('/organizer/:organizerId', async (req, res) => {
+  try {
+    const events = await Event.find({ createdBy: req.params.organizerId })
+      .populate('createdBy', 'name email');
+
+    res.json(events);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 module.exports = router;
