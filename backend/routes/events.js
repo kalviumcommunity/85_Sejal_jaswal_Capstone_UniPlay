@@ -112,12 +112,13 @@ router.put('/:id/location', async (req, res) => {
   }
 });
 
-
-
 router.get('/organizer/:organizerId', async (req, res) => {
   try {
-    const events = await Event.find({ createdBy: req.params.organizerId })
-      .populate('createdBy', 'name email');
+    const events = await Event.find({ createdBy: req.params.organizerId }).populate('createdBy', 'name email');
+
+    if (events.length === 0) {
+      return res.status(404).json({ message: 'No events found for this organizer' });
+    }
 
     res.json(events);
   } catch (err) {
