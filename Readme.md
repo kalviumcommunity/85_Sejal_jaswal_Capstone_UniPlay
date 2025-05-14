@@ -158,6 +158,12 @@ npm run dev
 
 MIT License © 2025 Sejal Jaswal
 
+## Render deployed link : https://uniplay.onrender.com/
+
+
+
+## Netlify Deployed link : https://uniplayy.netlify.app/
+
 
 
 
