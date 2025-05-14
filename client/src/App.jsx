@@ -1,35 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import Navbar from './components/Navbar';
+import EventList from './components/EventList';
+import './App.css';
+
+const mockEvents = [
+  { _id: '1', name: 'Football Tournament', date: '2025-05-20', description: 'Inter-college football event.' },
+  { _id: '2', name: 'Cricket League', date: '2025-05-25', description: 'University level cricket matches.' }
+];
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+      <main className="p-6">
+        <h2 className="text-2xl font-semibold mb-4">Upcoming Sports Events</h2>
+        <EventList events={mockEvents} />
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
